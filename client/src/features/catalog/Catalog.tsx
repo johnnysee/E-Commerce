@@ -1,6 +1,7 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { Product } from "../../app/models/product";
+import { ProductList } from "./ProductList";
 
 const URL = "https://localhost:5001/api/Products";
 
@@ -15,13 +16,7 @@ export const Catalog = () => {
   }, []);
   return (
     <>
-      <ul>
-        {products.map((product) => (
-          <li key={product.id}>
-            {product.name} {product.price}
-          </li>
-        ))}
-      </ul>
+      <ProductList products={products} />
     </>
   );
 };
