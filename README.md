@@ -1,5 +1,5 @@
 ## Summary
-Full-Stack E-Commerce store using React, Redux with TypeScript, SQLite and .NET (SDK).
+E-Commerce store using React, Redux with TypeScript, SQLite and .NET (SDK).
 
 ## Installation
 FE: cd client => yarn + yarn dev
