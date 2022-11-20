@@ -1,8 +1,44 @@
-import axios, { AxiosResponse } from "axios";
+import axios, { AxiosError, AxiosResponse } from "axios";
+import { toast } from 'react-toastify';
+import { history } from "../..";
+
+const sleep = () => new Promise(resolve => setTimeout(resolve, 500))
 
 axios.defaults.baseURL = "https://localhost:5001/api/";
 
 const responseBody = (response: AxiosResponse) => response.data;
+
+axios.interceptors.response.use(async response => {
+  await sleep();
+  return response
+}, (error: AxiosError) => {
+  const { data, status} = error.response!;
+  switch (status) {
+    case 400:
+      if (data.errors) {
+        const modelStateErrors: string[] = [];
+
+        for (const key in data.errors) {
+          if (data.errors[key]) {
+            modelStateErrors.push(data.errors[key])
+          }
+        }
+        throw modelStateErrors.flat();
+      }
+      return toast.error(data.title)
+    case 401:
+      return toast.error(data.title)
+    case 500:
+      history.push({
+        pathname: '/server-error',
+        state: {error: data}
+      })  
+      break;
+    default:
+      break;
+  }
+  return Promise.reject(error.response)
+})
 
 const requests = {
   get: (url: string) => axios.get(url).then(responseBody),
@@ -17,11 +53,11 @@ const Catalog = {
 }
 
 const TestErrors = {
-  get400Error: () => requests.get("buddy/bad-request"),
-  get401Error: () => requests.get("buddy/unauthorized"),
-  get404Error: () => requests.get("buddy/not-found"),
-  get500Error: () => requests.get("buddy/server-error"),
-  getValidationError: () => requests.get("buddy/validation-error"),
+  get400Error: () => requests.get("buggy/bad-request"),
+  get401Error: () => requests.get("buggy/unauthorized"),
+  get404Error: () => requests.get("buggy/not-found"),
+  get500Error: () => requests.get("buggy/server-error"),
+  getValidationError: () => requests.get("buggy/validation-error"),
 }
 
 const agent = {

@@ -10,12 +10,13 @@ import {
 } from "@mui/material";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import agent from "../../app/api/Agent";
+import agent from "../../app/api/agent";
+import { LoadingComponent } from "../../app/layout/LoadingComponent";
 import { Product } from "../../app/models/product";
 
 export const ProductDetails = () => {
   const { id } = useParams<{ id: string }>();
-  const [product, setProduct] = useState<Product | null>(null);
+  const [product, setProduct] = useState<Product | null | undefined>(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -25,9 +26,7 @@ export const ProductDetails = () => {
       .finally(() => setLoading(false));
   }, [id]);
 
-  if (loading) return <h3>Loading...</h3>;
-
-  if (!product) return <h3>Product not found</h3>;
+  if (loading) return <LoadingComponent message="Loading product..." />;
 
   return (
     <Grid container spacing={6}>
