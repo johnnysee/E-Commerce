@@ -11,51 +11,16 @@ import {
   Typography,
 } from "@mui/material";
 import { ShoppingCart } from "@mui/icons-material";
+import { midLinks, navStyles, rightLinks } from "../utils/utils";
+import { useStoreContext } from "../context/StoreContext";
 
 interface HeaderProps {
   darkMode: boolean;
   handleThemeChange: () => void;
 }
 
-const midLinks = [
-  {
-    title: "catalog",
-    path: "/catalog",
-  },
-  {
-    title: "about",
-    path: "/about",
-  },
-  {
-    title: "contact",
-    path: "/contact",
-  },
-];
-
-const rightLinks = [
-  {
-    title: "login",
-    path: "/login",
-  },
-  {
-    title: "register",
-    path: "/register",
-  },
-];
-
-const navStyles = {
-  color: "inherit",
-  textDecoration: "none",
-  typography: "h6",
-  "&:hover": {
-    color: "grey.500",
-  },
-  "&.active": {
-    color: "text.secondary",
-  },
-};
-
 export const Header = ({ darkMode, handleThemeChange }: HeaderProps) => {
+  const { basket } = useStoreContext();
   return (
     <AppBar sx={{ marginBottom: 4 }} position="static">
       <Toolbar
@@ -92,7 +57,7 @@ export const Header = ({ darkMode, handleThemeChange }: HeaderProps) => {
               },
             }}
           >
-            <Badge badgeContent={4} color="secondary">
+            <Badge badgeContent={basket?.items.length} color="secondary">
               <ShoppingCart />
             </Badge>
           </IconButton>
