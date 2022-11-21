@@ -34,6 +34,7 @@ export const App = () => {
         .catch((error) => console.log(error))
         .finally(() => setLoading(false));
     }
+    setLoading(false);
   }, [setBasket]);
 
   const [darkMode, setDarkMode] = useState(false);

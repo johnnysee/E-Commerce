@@ -21,6 +21,8 @@ interface HeaderProps {
 
 export const Header = ({ darkMode, handleThemeChange }: HeaderProps) => {
   const { basket } = useStoreContext();
+
+  const itemCount = basket?.items.reduce((sum, item) => sum + item.quantity, 0);
   return (
     <AppBar sx={{ marginBottom: 4 }} position="static">
       <Toolbar
@@ -57,7 +59,7 @@ export const Header = ({ darkMode, handleThemeChange }: HeaderProps) => {
               },
             }}
           >
-            <Badge badgeContent={basket?.items.length} color="secondary">
+            <Badge badgeContent={itemCount} color="secondary">
               <ShoppingCart />
             </Badge>
           </IconButton>
