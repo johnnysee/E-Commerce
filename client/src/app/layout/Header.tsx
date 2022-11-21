@@ -82,6 +82,8 @@ export const Header = ({ darkMode, handleThemeChange }: HeaderProps) => {
 
         <Box display="flex" alignItems="center">
           <IconButton
+            LinkComponent={Link}
+            href={"/basket"}
             size="large"
             sx={{
               color: "inherit",

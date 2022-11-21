@@ -15,6 +15,7 @@ import { ProductDetails } from "../../features/catalog/ProductDetails";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import ServerError from "../errors/ServerError";
+import { BasketPage } from "../../features/basket/BasketPage";
 
 export const App = () => {
   const [darkMode, setDarkMode] = useState(false);
@@ -50,6 +51,7 @@ export const App = () => {
           <Route path="/about" component={AboutPage} />
           <Route path="/contact" component={ContactPage} />
           <Route path="/server-error" component={ServerError} />
+          <Route path="/basket" component={BasketPage} />
         </Container>
       </ThemeProvider>
     </>
