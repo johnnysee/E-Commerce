@@ -6,16 +6,28 @@ import {
   CardContent,
   CardHeader,
   CardMedia,
+  CircularProgress,
   Link,
   Typography,
 } from "@mui/material";
+import { useState } from "react";
+import agent from "../../app/api/agent";
 import { Product } from "../../app/models/product";
+import { LoadingButton } from "@mui/lab";
 
 interface ProductCardProps {
   product: Product;
 }
 
 export const ProductCard = ({ product }: ProductCardProps) => {
+  const [loading, setLoading] = useState(false);
+
+  const handleAddItem = (productId: number) => {
+    setLoading(true);
+    agent.Basket.addItem(productId)
+      .catch((error) => console.log(error))
+      .finally(() => setLoading(false));
+  };
   return (
     <Card>
       <CardHeader
@@ -47,7 +59,14 @@ export const ProductCard = ({ product }: ProductCardProps) => {
         </Typography>
       </CardContent>
       <CardActions>
-        <Button size="small">Add to cart</Button>
+        <LoadingButton
+          loading={loading}
+          loadingIndicator={<CircularProgress color="inherit" size={16} />}
+          size="small"
+          onClick={() => handleAddItem(product.id)}
+        >
+          Add to cart
+        </LoadingButton>
         <Button component={Link} href={`/catalog/${product.id}`} size="small">
           View
         </Button>
