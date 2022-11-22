@@ -13,6 +13,7 @@ import { useParams } from "react-router-dom";
 import agent from "../../app/api/agent";
 import { LoadingComponent } from "../../app/layout/LoadingComponent";
 import { Product } from "../../app/models/product";
+import { currencyFormat } from "../../app/utils/utils";
 
 export const ProductDetails = () => {
   const { id } = useParams<{ id: string }>();
@@ -41,7 +42,7 @@ export const ProductDetails = () => {
         <Typography variant="h3">{product.name}</Typography>
         <Divider sx={{ mb: 2 }} />
         <Typography variant="h4" color="secondary">
-          ${(product.price / 100).toFixed(2)}
+          {currencyFormat(product?.price)}
         </Typography>
         <TableContainer>
           <Table>
