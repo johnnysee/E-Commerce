@@ -10,9 +10,9 @@ export const navStyles = {
   "&:hover": {
     color: "grey.500",
   },
-  "&.active": {
-    color: "text.secondary",
-  },
+  '&.active': {
+    color: 'text.secondary'
+}
 };
 
 export const midLinks = [

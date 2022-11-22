@@ -2,8 +2,10 @@ import { Add, Delete, Remove } from "@mui/icons-material";
 import { LoadingButton } from "@mui/lab";
 import {
   Box,
+  Button,
   Grid,
   IconButton,
+  Link,
   Paper,
   Table,
   TableBody,
@@ -138,6 +140,15 @@ export const BasketPage = () => {
         <Grid item xs={6} />
         <Grid item xs={6}>
           <BasketSummary />
+          <Button
+            href="/checkout"
+            component={Link}
+            variant="contained"
+            size="large"
+            fullWidth
+          >
+            Checkout
+          </Button>
         </Grid>
       </Grid>
     </>
