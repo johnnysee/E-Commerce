@@ -10,29 +10,28 @@ import {
   Link,
   Typography,
 } from "@mui/material";
-import { useState } from "react";
-import agent from "../../app/api/agent";
 import { Product } from "../../app/models/product";
 import { LoadingButton } from "@mui/lab";
 import { currencyFormat } from "../../app/utils/utils";
-import { useAppDispatch } from "../../app/store/configureStore";
-import { setBasket } from "../basket/basketSlice";
+import { useAppDispatch, useAppSelector } from "../../app/store/configureStore";
+import { addBasketItemAsync } from "../basket/basketSlice";
 
 interface ProductCardProps {
   product: Product;
 }
 
 export const ProductCard = ({ product }: ProductCardProps) => {
-  const [loading, setLoading] = useState(false);
+  const { status } = useAppSelector((state) => state.basket);
   const dispatch = useAppDispatch();
 
-  const handleAddItem = (productId: number) => {
-    setLoading(true);
-    agent.Basket.addItem(productId)
-      .then((basket) => dispatch(setBasket(basket)))
-      .catch((error) => console.log(error))
-      .finally(() => setLoading(false));
-  };
+  // const handleAddItem = (productId: number) => {
+  //   setLoading(true);
+  //   agent.Basket.addItem(productId)
+  //     .then((basket) => dispatch(setBasket(basket)))
+  //     .catch((error) => console.log(error))
+  //     .finally(() => setLoading(false));
+  // };
+
   return (
     <Card>
       <CardHeader
@@ -65,10 +64,12 @@ export const ProductCard = ({ product }: ProductCardProps) => {
       </CardContent>
       <CardActions>
         <LoadingButton
-          loading={loading}
+          loading={status.includes("pendingAddItem" + product.id)}
           loadingIndicator={<CircularProgress color="inherit" size={16} />}
           size="small"
-          onClick={() => handleAddItem(product.id)}
+          onClick={() =>
+            dispatch(addBasketItemAsync({ productId: product.id }))
+          }
         >
           Add to cart
         </LoadingButton>
