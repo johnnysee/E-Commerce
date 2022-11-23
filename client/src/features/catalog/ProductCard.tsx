@@ -24,14 +24,6 @@ export const ProductCard = ({ product }: ProductCardProps) => {
   const { status } = useAppSelector((state) => state.basket);
   const dispatch = useAppDispatch();
 
-  // const handleAddItem = (productId: number) => {
-  //   setLoading(true);
-  //   agent.Basket.addItem(productId)
-  //     .then((basket) => dispatch(setBasket(basket)))
-  //     .catch((error) => console.log(error))
-  //     .finally(() => setLoading(false));
-  // };
-
   return (
     <Card>
       <CardHeader
@@ -64,7 +56,7 @@ export const ProductCard = ({ product }: ProductCardProps) => {
       </CardContent>
       <CardActions>
         <LoadingButton
-          loading={status.includes("pendingAddItem" + product.id)}
+          loading={status === "pendingAddItem" + product.id}
           loadingIndicator={<CircularProgress color="inherit" size={16} />}
           size="small"
           onClick={() =>
