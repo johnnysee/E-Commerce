@@ -16,14 +16,15 @@ import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import ServerError from "../errors/ServerError";
 import { BasketPage } from "../../features/basket/BasketPage";
-import { useStoreContext } from "../context/StoreContext";
 import { getCookie } from "../utils/utils";
 import agent from "../api/agent";
 import { LoadingComponent } from "./LoadingComponent";
 import { CheckoutPage } from "../../features/checkout/CheckoutPage";
+import { useAppDispatch } from "../store/configureStore";
+import { setBasket } from "../../features/basket/basketSlice";
 
 export const App = () => {
-  const { setBasket } = useStoreContext();
+  const dispatch = useAppDispatch();
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -31,12 +32,12 @@ export const App = () => {
 
     if (buyerId) {
       agent.Basket.get()
-        .then((basket) => setBasket(basket))
+        .then((basket) => dispatch(setBasket(basket)))
         .catch((error) => console.log(error))
         .finally(() => setLoading(false));
     }
     setLoading(false);
-  }, [setBasket]);
+  }, [dispatch]);
 
   const [darkMode, setDarkMode] = useState(false);
   const paletteType = darkMode ? "dark" : "light";

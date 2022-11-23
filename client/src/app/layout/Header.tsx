@@ -13,6 +13,7 @@ import {
 import { ShoppingCart } from "@mui/icons-material";
 import { midLinks, navStyles, rightLinks } from "../utils/utils";
 import { useStoreContext } from "../context/StoreContext";
+import { useAppSelector } from "../store/configureStore";
 
 interface HeaderProps {
   darkMode: boolean;
@@ -20,7 +21,7 @@ interface HeaderProps {
 }
 
 export const Header = ({ darkMode, handleThemeChange }: HeaderProps) => {
-  const { basket } = useStoreContext();
+  const { basket } = useAppSelector((state) => state.basket);
 
   const itemCount = basket?.items.reduce((sum, item) => sum + item.quantity, 0);
   return (
