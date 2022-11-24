@@ -127,7 +127,7 @@ export const ProductDetails = () => {
                 item?.quantity === quantity || (!item && quantity === 0)
               }
               onClick={handleUpdateCard}
-              loading={status.includes("pendingRemoveItem" + item?.productId)}
+              loading={status.includes("pending")}
               sx={{ height: "55px" }}
               color="primary"
               size="large"

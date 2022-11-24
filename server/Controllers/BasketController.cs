@@ -41,7 +41,7 @@ namespace server.Controllers
 
       // get products 
       var product = await _context.Products.FindAsync(productId);
-      if (product == null) return NotFound();
+      if (product == null) return BadRequest(new ProblemDetails { Title = "Product Not Found" });
 
       // add items
       basket.AddItem(product, quantity);
