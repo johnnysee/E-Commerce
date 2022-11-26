@@ -8,16 +8,7 @@ import {
   productSelectors,
   setProductParams,
 } from "./catalogSlice";
-import {
-  Box,
-  Checkbox,
-  FormControlLabel,
-  FormGroup,
-  Grid,
-  Pagination,
-  Paper,
-  Typography,
-} from "@mui/material";
+import { Box, Grid, Pagination, Paper, Typography } from "@mui/material";
 import { ProductSearch } from "./ProductSearch";
 import { RadioButtonGroup } from "../../app/components/RadioButtonGroup";
 import { CheckboxButtons } from "../../app/components/CheckBoxButtons";
