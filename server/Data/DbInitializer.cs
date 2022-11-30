@@ -1,16 +1,39 @@
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
+using Microsoft.AspNetCore.Identity;
 using server.Entities;
 
 namespace server.Data
 {
   public static class DbInitializer
   {
-    public static void Initialize(StoreContext context)
+    public static async Task Initialize(StoreContext context, UserManager<User> userManager)
     {
-      if (context.Products.Any()) return;
+      if (!userManager.Users.Any())
+      {
+        var user = new User
+        {
+          UserName = "bob",
+          Email = "bob@test.com"
+        };
 
-      var products = new List<Product>()
+        await userManager.CreateAsync(user, "Pa$$w0rd");
+        await userManager.AddToRoleAsync(user, "Member");
+
+        var admin = new User
+        {
+          UserName = "admin",
+          Email = "admin@test.com"
+        };
+
+        await userManager.CreateAsync(admin, "Pa$$w0rd");
+        await userManager.AddToRolesAsync(admin, new[] { "Member", "Admin" });
+      }
+
+      if (!context.Products.Any())
+      {
+        var products = new List<Product>()
       {
             new Product
                 {
@@ -209,13 +232,14 @@ namespace server.Data
                     QuantityInStock = 100
                 },
       };
+        foreach (var product in products)
+        {
+          context.Products.Add(product);
+        }
 
-      foreach (var product in products)
-      {
-        context.Products.Add(product);
+        context.SaveChanges();
       }
 
-      context.SaveChanges();
     }
   }
 }
