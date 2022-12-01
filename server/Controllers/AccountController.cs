@@ -1,25 +1,25 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using server.DTOs;
 using server.Entities;
+using server.Services;
 
 namespace server.Controllers
 {
   public class AccountController : BaseApiController
   {
     private readonly UserManager<User> _userManager;
+    private readonly TokenService _tokenService;
 
-    public AccountController(UserManager<User> userManager)
+    public AccountController(UserManager<User> userManager, TokenService tokenService)
     {
       _userManager = userManager;
+      _tokenService = tokenService;
     }
 
     [HttpPost("login")]
-    public async Task<ActionResult<User>> Login(LoginDTO loginDTO)
+    public async Task<ActionResult<UserDTO>> Login(LoginDTO loginDTO)
     {
       var user = await _userManager.FindByNameAsync(loginDTO.Username);
 
@@ -28,7 +28,11 @@ namespace server.Controllers
         return Unauthorized();
       }
 
-      return user;
+      return new UserDTO
+      {
+        Email = user.Email,
+        Token = await _tokenService.GenerateToken(user)
+      };
     }
 
     [HttpPost("register")]

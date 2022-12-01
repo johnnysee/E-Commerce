@@ -9,6 +9,7 @@ using Microsoft.OpenApi.Models;
 using server.Data;
 using server.Entities;
 using server.Middleware;
+using server.Services;
 
 namespace API
 {
@@ -43,6 +44,7 @@ namespace API
         .AddEntityFrameworkStores<StoreContext>();
       services.AddAuthentication();
       services.AddAuthorization();
+      services.AddScoped<TokenService>();
     }
 
     // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
